@@ -93,7 +93,7 @@ class DatanormBarcodePlugin(BarcodeMixin, SettingsMixin, InvenTreePlugin):
         part = None
 
         if self.is_valid_ean_code(barcode_data):
-            log("Valid EAN code!")
+            log("Valid EAN code")
             # Search for EAN in keywords of all parts
             part = self.search_for_first_part_with_keyword(barcode_data)
             reassign_barcode = self.get_setting("AUTOMATIC_BARCODE_ASSIGNMENT")
@@ -101,10 +101,11 @@ class DatanormBarcodePlugin(BarcodeMixin, SettingsMixin, InvenTreePlugin):
             # Create new part if none exists so far
             if part is None:
                 part = self.create_all_parts(barcode_data)
-                log(f"Part {part.pk} created!")
-            elif part.barcode_hash == "" and reassign_barcode:
+                log(f"Part {part.pk} created")
+            elif reassign_barcode == "True" and part.barcode_hash == "":
                 hashed_ean = hash_barcode(barcode_data)
                 part.assign_barcode(hashed_ean, barcode_data)
+                log(f"Barcode reassigned to {part.pk}")
 
         return self.format_matched_response(part)
 
@@ -175,7 +176,7 @@ class DatanormBarcodePlugin(BarcodeMixin, SettingsMixin, InvenTreePlugin):
 
         overwrite_category = self.get_setting("DEFAULT_CATEGORY")
         use_overwrite_category = self.get_setting("USE_DEFAULT_CATEGORY")
-        if use_overwrite_category:
+        if use_overwrite_category == "True":
             self.overwrite_category(datanorm_items, overwrite_category)
 
         # If EAN was found in a datanornm file, continue

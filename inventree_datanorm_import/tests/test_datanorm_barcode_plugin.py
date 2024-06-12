@@ -73,7 +73,7 @@ class TestDatanormBarcodePlugin(InvenTreeTestCase):
         self.assertEqual(s_part_set[1].SKU, "996634")
         self.assertEqual(s_part_set[1].supplier.name, "Firmenname 2")
 
-    def test_scan(self):
+    def test_scan__create_new_part(self):
         dut = DatanormBarcodePlugin()
 
         # create first part with another EAN -> New part will be created
@@ -84,44 +84,78 @@ class TestDatanormBarcodePlugin(InvenTreeTestCase):
         )
         self.assertEqual(response_1, expected_response_1)
         self.assertEqual(
-            self.helper_get_part_from_response(response_1).barcode_data,
-            GOOD_EAN_13_1,
+            self.helper_get_part_from_response(response_1).barcode_data, GOOD_EAN_13_1
         )
+
+    def test_scan__part_existing(self):
+        dut = DatanormBarcodePlugin()
+
+        # Create part
+        response_1 = dut.scan(GOOD_EAN_13_1)
 
         # create second part with same EAN -> No part will be created, exiting part
         # will be referenced
         response_2 = dut.scan(GOOD_EAN_13_1)
         self.assertEqual(response_2, response_1)
 
-        # detach barcode from existing part -> No part will be created, exiting part
-        # will be referenced and barcode is reassigned
+    def test_scan__with_barcode_reassignment(self):
+        dut = DatanormBarcodePlugin()
+        dut.set_setting("AUTOMATIC_BARCODE_ASSIGNMENT", True)
+        # Create part and unassign barcode
+        response_1 = dut.scan(GOOD_EAN_13_1)
         part = self.helper_get_part_from_response(response_1)
         part.unassign_barcode()
         self.assertEqual(
             self.helper_get_part_from_response(response_1).barcode_data, ""
         )
-        response_3 = dut.scan(GOOD_EAN_13_1)
-        self.assertEqual(response_3, response_1)
+
+        # If scanned again, no part will be created, exiting part will be referenced
+        # and barcode is reassigned:
+        response_2 = dut.scan(GOOD_EAN_13_1)
+        self.assertEqual(response_2, response_1)
         self.assertEqual(
-            self.helper_get_part_from_response(response_1).barcode_data,
-            GOOD_EAN_13_1,
+            self.helper_get_part_from_response(response_1).barcode_data, GOOD_EAN_13_1
         )
+
+    def test_scan__no_barcode_reassignment(self):
+        dut = DatanormBarcodePlugin()
+        dut.set_setting("AUTOMATIC_BARCODE_ASSIGNMENT", False)
+        # Create part and unassign barcode
+        response_1 = dut.scan(GOOD_EAN_13_1)
+        part = self.helper_get_part_from_response(response_1)
+        part.unassign_barcode()
+        self.assertEqual(
+            self.helper_get_part_from_response(response_1).barcode_data, ""
+        )
+
+        # If scanned again, no part will be created, exiting part will be referenced
+        # but the barcode is NOT reassigned:
+        response_2 = dut.scan(GOOD_EAN_13_1)
+        self.assertEqual(response_2, response_1)
+        self.assertEqual(
+            self.helper_get_part_from_response(response_1).barcode_data, ""
+        )
+
+    def test_scan__multiple_parts(self):
+        dut = DatanormBarcodePlugin()
+        # Create part
+        dut.scan(GOOD_EAN_13_1)
 
         # create second part with another EAN -> New part will be created
-        response_4 = dut.scan(GOOD_EAN_13_2)
-        expected_response_4 = self.helper_create_expected_response(
-            response_4["part"]["pk"]
+        response_2 = dut.scan(GOOD_EAN_13_2)
+        expected_response_2 = self.helper_create_expected_response(
+            response_2["part"]["pk"]
         )
-        self.assertEqual(response_4, expected_response_4)
+        self.assertEqual(response_2, expected_response_2)
         self.assertEqual(
-            self.helper_get_part_from_response(response_4).barcode_data,
-            GOOD_EAN_13_2,
+            self.helper_get_part_from_response(response_2).barcode_data, GOOD_EAN_13_2
         )
 
-        # Try to create third part with bad EAN -> No part will be created
-        response_5 = dut.scan(BAD_EAN1)
-        expected_response_5 = {}
-        self.assertEqual(response_5, expected_response_5)
+    def test_scan__no_ean_barcode(self):
+        dut = DatanormBarcodePlugin()
+        # Try to create part with bad EAN -> No part will be created
+        response = dut.scan(BAD_EAN1)
+        self.assertEqual(response, None)
 
     def helper_create_expected_response(self, pk: str) -> dict:
         expected_response = {
