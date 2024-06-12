@@ -46,7 +46,7 @@ After installing the plugin, a (virtual) part must be created in InvenTree, in w
 
 ## Development
 
-Development of the plugin is best done in a VSCode devcontainer, as described [**here**](https://github.com/inventree/InvenTree/blob/master/docs/docs/develop/devcontainer.md#plugin-development).
+Development of the plugin is best done in a VSCode devcontainer, as described [**here**](https://github.com/inventree/InvenTree/blob/master/docs/docs/develop/devcontainer.md#plugin-development). Install with `pip install -e ../inventree-plugin`.
 
 The plugin can be tested in the Inventree development container: `invoke test -r inventree_datanorm_import.tests`.
 
