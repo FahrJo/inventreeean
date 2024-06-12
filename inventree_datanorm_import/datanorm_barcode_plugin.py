@@ -72,6 +72,14 @@ class DatanormBarcodePlugin(BarcodeMixin, SettingsMixin, InvenTreePlugin):
             ),
             "validator": bool,
         },
+        "AUTOMATIC_BARCODE_ASSIGNMENT": {
+            "name": _("Re-assign barcode to existing part"),
+            "description": _(
+                "If a barcode is found in the Tags of an existing part, it will be assigned\
+                 as additional barcode to that part to speed up the scan for the next times."
+            ),
+            "validator": bool,
+        },
     }
 
     def scan(self, barcode_data) -> dict:
@@ -88,12 +96,13 @@ class DatanormBarcodePlugin(BarcodeMixin, SettingsMixin, InvenTreePlugin):
             log("Valid EAN code!")
             # Search for EAN in keywords of all parts
             part = self.search_for_first_part_with_keyword(barcode_data)
+            reassign_barcode = self.get_setting("AUTOMATIC_BARCODE_ASSIGNMENT")
 
             # Create new part if none exists so far
             if part is None:
                 part = self.create_all_parts(barcode_data)
                 log(f"Part {part.pk} created!")
-            elif part.barcode_hash == "":
+            elif part.barcode_hash == "" and reassign_barcode:
                 hashed_ean = hash_barcode(barcode_data)
                 part.assign_barcode(hashed_ean, barcode_data)
 
@@ -299,7 +308,7 @@ class DatanormBarcodePlugin(BarcodeMixin, SettingsMixin, InvenTreePlugin):
             label = part.barcode_model_type()
             response = {label: part.format_matched_response()}
         else:
-            response = {}
+            response = None
         return response
 
     @staticmethod
