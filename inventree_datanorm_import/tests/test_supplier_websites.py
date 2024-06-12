@@ -11,17 +11,17 @@ from inventree_datanorm_import.supplier_websites import (
 class TestSupplierWebsites(InvenTreeTestCase):
 
     def test_get_supplier_website(self):
-        supplier_website = get_supplier_website("J.W.Zander GmbH & Co.KG", 1234)
+        supplier_website = get_supplier_website("J.W.Zander GmbH & Co.KG", "1234")
         self.assertIsInstance(supplier_website, ZanderWebsite)
-        supplier_website = get_supplier_website("Adolf Würth GmbH & Co. KG", 1234)
+        supplier_website = get_supplier_website("Adolf Würth GmbH & Co. KG", "1234")
         self.assertIsInstance(supplier_website, WuerthWebsite)
-        supplier_website = get_supplier_website("Adolf Wuerth GmbH & Co. KG", 1234)
+        supplier_website = get_supplier_website("Adolf Wuerth GmbH & Co. KG", "1234")
         self.assertIsInstance(supplier_website, WuerthWebsite)
-        supplier_website = get_supplier_website("Alexander Buerkle", 1234)
+        supplier_website = get_supplier_website("Alexander Buerkle", "0134989")
         self.assertIsInstance(supplier_website, BuerkleWebsite)
-        supplier_website = get_supplier_website("Alexander Bürkle", 1234)
+        supplier_website = get_supplier_website("Alexander Bürkle", "0134989")
         self.assertIsInstance(supplier_website, BuerkleWebsite)
-        supplier_website = get_supplier_website("Sonepar", 1234)
+        supplier_website = get_supplier_website("Sonepar", "1234")
         self.assertIsInstance(supplier_website, SoneparWebsite)
 
 
