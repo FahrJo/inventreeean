@@ -2,7 +2,7 @@ from importlib import import_module
 from importlib.resources import files
 import json
 from InvenTree.unit_test import InvenTreeTestCase
-from inventree_datanorm_import.datanorm_barcode_plugin import DatanormBarcodePlugin
+from inventree_datanorm_plugin.datanorm_barcode_plugin import DatanormBarcodePlugin
 from datanorm import (
     DatanormBaseFile,
     DatanormItem,
@@ -22,7 +22,7 @@ class TestDatanormBarcodePlugin(InvenTreeTestCase):
 
     def setUp(self):
         this_package = import_module(
-            "inventree_datanorm_import.tests", package="inventree-datanorm-import"
+            "inventree_datanorm_plugin.tests", package="inventree-datanorm-plugin"
         )
         self.DATANORM_PATH = str(files(this_package).joinpath("datanorm_test.001"))
         self.DATANORM_WRG_PATH = str(files(this_package).joinpath("datanorm_test.WRG"))

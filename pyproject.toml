@@ -6,8 +6,8 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "inventree-datanorm-import"
-version = "0.0.3"
+name = "inventree-datanorm-plugin"
+version = "0.0.4"
 authors = [
   { name="Johannes Fahr", email="johannes.fahr@posteo.de" },
 ]
@@ -29,10 +29,7 @@ dependencies = [
 #Issues = "https://github.com/pypa/sampleproject/issues"
 
 [project.entry-points."inventree_plugins"]
-inventree-datanorm-import = "inventree_datanorm_import.datanorm_barcode_plugin:DatanormBarcodePlugin"
+inventree-datanorm-plugin = "inventree_datanorm_plugin.datanorm_barcode_plugin:DatanormBarcodePlugin"
 
 [tool.setuptools]
-packages = ["inventree_datanorm_import"]
-
-#[tool.setuptools.packages.find]
-#exclude = ["DATANORM_files*"]
+packages = ["inventree_datanorm_plugin"]

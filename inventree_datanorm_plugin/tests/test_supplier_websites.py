@@ -1,5 +1,5 @@
 from InvenTree.unit_test import InvenTreeTestCase
-from inventree_datanorm_import.supplier_websites import (
+from inventree_datanorm_plugin.supplier_websites import (
     BuerkleWebsite,
     SoneparWebsite,
     WuerthWebsite,

@@ -4,7 +4,7 @@ from urllib.parse import urlparse
 
 from django.core.files.base import ContentFile
 from datanorm import DatanormItem
-from inventree_datanorm_import.supplier_websites import (
+from .supplier_websites import (
     SupplierWebsite,
     get_supplier_website,
 )

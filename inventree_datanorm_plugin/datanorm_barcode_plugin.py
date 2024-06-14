@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from django.core.validators import MinLengthValidator
 
 from InvenTree.helpers import hash_barcode
-from inventree_datanorm_import.part_factory import PartFactory
+from .part_factory import PartFactory
 from datanorm import (
     DatanormBaseFile,
     DatanormItem,
@@ -42,9 +42,9 @@ def log(msg: str, type="info"):
 class DatanormBarcodePlugin(BarcodeMixin, SettingsMixin, InvenTreePlugin):
 
     NAME = "DatanormBarcode"
-    TITLE = "DATANORM Barcode Scanner"
+    TITLE = "DATANORM Barcodes"
     DESCRIPTION = "Add new scanned items from DATANORM files to inventory"
-    VERSION = "0.0.3"
+    VERSION = "0.0.4"
     AUTHOR = "FahrJo"
 
     SETTINGS = {
