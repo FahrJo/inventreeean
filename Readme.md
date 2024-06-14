@@ -12,6 +12,14 @@ To install the plugin from this repository, install the plugin in the GUI from a
 git+https://github.com/ageffgmbh/inventree-datanorm-plugin
 ```
 
+To update to the latest version, it is neccessary to execute the following commands on the server:
+
+```bash
+cd /opt/inventree
+source env/bin/activate
+invoke update
+```
+
 ### Install from local package
 
 To install the plugin from a local package, you must be logged on to the Inventree server and have activated the Python environment of Inventree:
