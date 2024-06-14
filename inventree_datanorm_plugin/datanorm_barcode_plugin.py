@@ -146,13 +146,17 @@ class DatanormBarcodePlugin(BarcodeMixin, SettingsMixin, InvenTreePlugin):
         Returns:
             bool: Result of evaluation
         """
-        # everything has to be flipped to work with EAN-8 and EAN-13
-        factor = "131313131313"[::-1]
-        checksum = int(code[-1])
-        flipped_prefix = code[:-1][::-1]
-        sum_if_digits = 0
+        # code has to be numeric
+        if not code.isnumeric():
+            return False
 
         if len(code) == 13 or len(code) == 8:
+            # everything has to be flipped to work with EAN-8 and EAN-13
+            factor = "131313131313"[::-1]
+            checksum = int(code[-1])
+            flipped_prefix = code[:-1][::-1]
+            sum_if_digits = 0
+
             # Iterate over the string
             for i, digit in enumerate(flipped_prefix):
                 sum_if_digits += int(digit) * int(factor[i])

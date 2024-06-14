@@ -16,6 +16,7 @@ GOOD_EAN_13_2 = "4012195583943"
 GOOD_EAN_8 = "90311017"
 BAD_EAN1 = "12323"
 BAD_EAN2 = "1234567890123"
+BAD_EAN3 = "ABC-abc-1M"
 
 
 class TestDatanormBarcodePlugin(InvenTreeTestCase):
@@ -39,6 +40,7 @@ class TestDatanormBarcodePlugin(InvenTreeTestCase):
         self.assertTrue(dut.is_valid_ean_code(GOOD_EAN_8))
         self.assertFalse(dut.is_valid_ean_code(BAD_EAN1))
         self.assertFalse(dut.is_valid_ean_code(BAD_EAN2))
+        self.assertFalse(dut.is_valid_ean_code(BAD_EAN3))
 
     def test_create_all_parts(self):
         dut = DatanormBarcodePlugin()
