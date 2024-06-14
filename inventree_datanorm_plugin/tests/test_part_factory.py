@@ -9,7 +9,7 @@ from datanorm import (
     DatanormPriceFile,
     DatanormProductGroupFile,
 )
-from inventree_datanorm_import.part_factory import PartFactory
+from inventree_datanorm_plugin.part_factory import PartFactory
 
 GOOD_EAN_13 = "3250614315336"
 
@@ -19,7 +19,7 @@ class TestDatanormPartFactory(InvenTreeTestCase):
     def setUp(self):
         InvenTreeSetting().set_setting("INVENTREE_DEFAULT_CURRENCY", "EUR")
         this_package = import_module(
-            "inventree_datanorm_import.tests", package="inventree-datanorm-import"
+            "inventree_datanorm_plugin.tests", package="inventree-datanorm-plugin"
         )
         self.DATANORM_PATH = str(files(this_package).joinpath("datanorm_test.001"))
         self.DATANORM_WRG_PATH = str(files(this_package).joinpath("datanorm_test.WRG"))

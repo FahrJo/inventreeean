@@ -2,7 +2,7 @@ from importlib import import_module
 from importlib.resources import files
 import json
 from InvenTree.unit_test import InvenTreeTestCase
-from inventree_datanorm_import.datanorm_barcode_plugin import DatanormBarcodePlugin
+from inventree_datanorm_plugin.datanorm_barcode_plugin import DatanormBarcodePlugin
 from datanorm import (
     DatanormBaseFile,
     DatanormItem,
@@ -16,13 +16,14 @@ GOOD_EAN_13_2 = "4012195583943"
 GOOD_EAN_8 = "90311017"
 BAD_EAN1 = "12323"
 BAD_EAN2 = "1234567890123"
+BAD_EAN3 = "ABC-abc-1M"
 
 
 class TestDatanormBarcodePlugin(InvenTreeTestCase):
 
     def setUp(self):
         this_package = import_module(
-            "inventree_datanorm_import.tests", package="inventree-datanorm-import"
+            "inventree_datanorm_plugin.tests", package="inventree-datanorm-plugin"
         )
         self.DATANORM_PATH = str(files(this_package).joinpath("datanorm_test.001"))
         self.DATANORM_WRG_PATH = str(files(this_package).joinpath("datanorm_test.WRG"))
@@ -39,6 +40,7 @@ class TestDatanormBarcodePlugin(InvenTreeTestCase):
         self.assertTrue(dut.is_valid_ean_code(GOOD_EAN_8))
         self.assertFalse(dut.is_valid_ean_code(BAD_EAN1))
         self.assertFalse(dut.is_valid_ean_code(BAD_EAN2))
+        self.assertFalse(dut.is_valid_ean_code(BAD_EAN3))
 
     def test_create_all_parts(self):
         dut = DatanormBarcodePlugin()
