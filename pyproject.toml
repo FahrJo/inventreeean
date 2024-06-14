@@ -1,0 +1,38 @@
+[build-system]
+requires = [
+    "setuptools>=61.0",
+    "setuptools-scm>=8.0"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "inventree-datanorm-import"
+version = "0.0.3"
+authors = [
+  { name="Johannes Fahr", email="johannes.fahr@posteo.de" },
+]
+description = "Barcode mixin to automatically create parts from DATANORM files"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+  'datanorm >= 0.0.1a1',
+  'requests >= 2.20.0, < 3',
+]
+
+#[project.urls]
+#Homepage = "https://github.com/pypa/sampleproject"
+#Issues = "https://github.com/pypa/sampleproject/issues"
+
+[project.entry-points."inventree_plugins"]
+inventree-datanorm-import = "inventree_datanorm_import.datanorm_barcode_plugin:DatanormBarcodePlugin"
+
+[tool.setuptools]
+packages = ["inventree_datanorm_import"]
+
+#[tool.setuptools.packages.find]
+#exclude = ["DATANORM_files*"]
