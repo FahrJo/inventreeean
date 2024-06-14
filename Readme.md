@@ -1,8 +1,18 @@
 # DATANORM Barcode Plugin for InvenTree
 
-If a scanned EAN code is not found for any stored part, various DATANORM files are searched for an article with the EAN and, if found, the corresponding part is created with the stored information.
+If a scanned EAN code is not found for any stored part, your DATANORM files are searched for an article with the EAN. If found, the corresponding part is created with the stored information.
 
 ## Installation
+
+### Install from git repository
+
+To install the plugin from this repository, install the plugin in the GUI from as VCS-URL:
+
+```
+git+https://github.com/ageffgmbh/inventree-datanorm-plugin
+```
+
+### Install from local package
 
 To install the plugin from a local package, you must be logged on to the Inventree server and have activated the Python environment of Inventree:
 
@@ -13,7 +23,7 @@ source env/bin/activate
 The plugin can then be installed from the package file, e.g:
 
 ```bash
-pip install /home/inventree-datanorm-import-x.y.z.tar.gz
+pip install /home/inventree-datanorm-plugin-x.y.z.tar.gz
 ```
 
 ## Setup
@@ -48,6 +58,6 @@ After installing the plugin, a (virtual) part must be created in InvenTree, in w
 
 Development of the plugin is best done in a VSCode devcontainer, as described [**here**](https://github.com/inventree/InvenTree/blob/master/docs/docs/develop/devcontainer.md#plugin-development). Install with `pip install -e ../inventree-plugin`.
 
-The plugin can be tested in the Inventree development container: `invoke test -r inventree_datanorm_import.tests`.
+The plugin can be tested in the Inventree development container: `invoke test -r inventree_datanorm_plugin.tests`.
 
 > To run the tests, the plugin must first be installed in the InvenTree's venv with pip!
